@@ -1,0 +1,18 @@
+N = int(input())
+A = list(map(int, input().split()))
+B = list(map(int, input().split()))  #B의 새 정렬
+A2=[]
+B2 = []
+A1 = sorted(A)
+B1 = sorted(B)
+index1=0
+for i in range(N):
+  for k in range(N):
+    if B1[k] == B[i]:
+      B2.append(k)
+for i in range(N-1,-1,-1):
+  A[B2.index(i)] = A1[N-i+-1]
+total=0
+for i in range(len(A)):
+  total+=(A[i]*B[i])
+print(total)
