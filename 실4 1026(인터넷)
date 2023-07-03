@@ -1,0 +1,12 @@
+N = int(input())
+A = list(map(int, input().split()))
+B = list(map(int, input().split()))
+
+A1 = sorted(A)
+B1 = sorted(B)
+total=0
+for i in range(N):
+  total += min(A1)*max(B1)
+  A1.remove(min(A1))
+  B1.remove(max(B1))
+print(total)
