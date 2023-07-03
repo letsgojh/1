@@ -18,5 +18,4 @@ for i in range(2,1001):
 for i in range(M,N+1):
   
   if Arry[i]!=0 and Arry[i]!=1:
-    
     print(Arry[i])
