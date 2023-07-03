@@ -1,0 +1,22 @@
+import sys
+
+input = sys.stdin.readline
+M, N = map(int, input().split()) 
+Arry = [i for i in range(0,N+1)]
+
+for i in range(2,1001):
+  
+  for k in range(2*i,N+1,i):
+
+    if Arry[i]==0:
+      break
+      
+    if Arry[k]%i == 0:
+      Arry[k] = 0
+
+
+for i in range(M,N+1):
+  
+  if Arry[i]!=0 and Arry[i]!=1:
+    
+    print(Arry[i])
