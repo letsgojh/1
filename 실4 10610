@@ -1,0 +1,12 @@
+N =map(int,input())
+N = sorted(N,reverse=True)
+sum=0
+if N[len(N)-1]!=0:
+  print(-1)
+else:
+  for i in range(len(N)):
+    sum+=N[i]
+  if sum%3==0:
+      print(*N,sep='',end='')
+  else:
+    print(-1)
