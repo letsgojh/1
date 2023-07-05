@@ -1,0 +1,16 @@
+import sys
+
+input = sys.stdin.readline
+N = int(input())
+a = ['0' for k in range(N)]
+
+for i in range(N):
+  a[i] = input()
+
+a = sorted(a,key = lambda x:(len(x),x)) # 1. 길이정렬 2. 사전정렬
+
+for i in range(N-1,0,-1):
+  if a[i] == a[i-1]:
+    a.pop(i)
+
+print(*a ,sep = '',end='\n')
