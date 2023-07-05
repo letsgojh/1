@@ -1,0 +1,15 @@
+import sys
+
+input = sys.stdin.readline
+N = int(input())
+a = [['0' for i in range(3)]for k in range(N)]
+
+for i in range(N):
+  a[i] = input().split()
+  a[i][0] = int(a[i][0]) # int형으로 안바꾸니 틀리게 나온다.
+  a[i].append(i)
+  
+a = sorted(a,key = lambda x:(x[0],x[2]))
+
+for k in range(N):
+  print(f'{a[k][0]} {a[k][1]}')
