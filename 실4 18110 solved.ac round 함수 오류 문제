@@ -1,0 +1,33 @@
+import sys
+import math
+
+
+def solved_ac(a, min, max):
+  sum = 0
+  for i in range(min, max):
+    sum += a[i]
+#round 대신에 0.5 더한다음에 math.floor 함수 쓰면 반올림 된다.
+  return math.floor(((sum / (max - min)) + 0.5))
+
+
+input = sys.stdin.readline
+n = int(input())
+a = [0 for _ in range(n)]
+Range = math.floor(((n * 0.15) + 0.5))
+# +0.5를하여 round(0.5) = 0 인 오류를 해결했는데도 문제 발생
+min = Range
+max = n - Range
+Sum = 0
+
+if n == 0:
+  print(0)
+elif n == 1 or n == 2 or n == 3:
+  for i in range(n):
+    a[i] = int(input())
+    Sum += a[i]
+  print(math.floor(((Sum / n) + 0.5)))
+else:
+  for i in range(n):
+    a[i] = int(input())
+  a = sorted(a)
+  print(solved_ac(a, min, max))
