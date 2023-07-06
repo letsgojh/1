@@ -1,0 +1,49 @@
+from collections import deque
+import sys
+
+input = sys.stdin.readline
+
+
+def bfs(graph, start, visited):
+  #bfs 함수를 만들때 무슨 인자가 필요할까
+  queue = deque([start])
+  #push와 같은 연산
+  visited[start] = True
+  #방문 표시
+  while queue:  #queue 빌때까지 계속 *중요
+    v = queue.popleft()
+    print(v, end=' ')
+    for i in graph[v]:  #graph[v]의 원소 탐색
+      if not visited[i]:  # 만약에 방문 안했다면
+        queue.append(i)  #queue에 push
+        visited[i] = True
+
+
+def dfs(graph, start, visited): # stack사용
+  visited[start] = True  # 방문 표시
+  print(start, end=' ')
+
+  for i in graph[start]:
+    if not visited[i]:
+      dfs(graph, i, visited) # 재귀함수 -> 나중에 스택으로 표현
+
+
+vertics, edge, start = map(int, input().split())
+
+graph = [[] for i in range(max(vertics,edge)+1)]
+#열에는 값을 안 입력해도 배열이 생성된다. 행에만 입력되면 된다.
+
+for i in range(edge): # index out of range 오류 많이 뜬 곳
+  vertic1, vertic2 = map(int, input().split()) 
+  graph[vertic1].append(vertic2)
+  graph[vertic2].append(vertic1)
+
+for i in range(len(graph)):
+  graph[i] = sorted(graph[i])
+
+visited = [False] * (vertics + 1)
+visited1 = [False] * (vertics + 1)
+
+dfs(graph, start, visited)
+print()
+bfs(graph, start, visited1)
