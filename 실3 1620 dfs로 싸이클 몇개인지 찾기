@@ -1,0 +1,34 @@
+import sys
+
+
+def dfs(graph, start, visited):
+  visited[start] = True
+
+  for i in graph[start]:
+    if not visited[i]:
+      dfs(graph,i,visited)
+  
+  
+input = sys.stdin.readline
+N = int(input())  #number of test case
+
+for k in range(N):
+  vertics = int(input())
+  graph = [[]for i in range(vertics+1)]
+  tmp = list(map(int,input().split()))
+  visited = [False] * (vertics+1)
+  cnt = 0
+
+  for i in range(1, vertics+1): # 17번 line에서 graph[0] 부터 생성 안되서 만든 반복문
+    graph[i].append(tmp[i-1])
+
+  for k in range(1,len(visited)):
+    if visited[k] == False:
+      dfs(graph,k,visited)
+      cnt += 1
+  
+  print(cnt)
+
+
+  
+
