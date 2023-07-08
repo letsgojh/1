@@ -1,0 +1,21 @@
+import sys
+
+input = sys.stdin.readline
+T = int(input())
+
+zero_cnt = [0 for i in range(41)]
+one_cnt = [0 for i in range(41)]
+zero_cnt[0] = 1
+one_cnt[0] = 0
+zero_cnt[1] = 0
+one_cnt[1] = 1
+zero_cnt[2] = 1
+one_cnt[2] = 1
+
+for k in range(3, 41):
+  zero_cnt[k] = one_cnt[k - 1]
+  one_cnt[k] = zero_cnt[k - 1] + one_cnt[k - 1]
+
+for i in range(T):
+  N = int(input())
+  print(zero_cnt[N], one_cnt[N], sep=' ')
