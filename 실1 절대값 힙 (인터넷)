@@ -1,0 +1,20 @@
+import heapq
+import sys
+
+input = sys.stdin.readline
+heap_q = []
+N = int(input())
+cmp = []
+
+for i in range(N):
+  Input = int(input())
+  # key = lambda x:(abs(cmp[x])) 쓸거면 이렇게 쓰기 -> 시간초과 
+  if Input == 0:
+    if len(heap_q) == 0:
+      print(0)
+    else:
+      print(heapq.heappop(heap_q)[1])  #print(heapq.heappop(heap_q[1]))-> 오류
+  else:
+    heapq.heappush(heap_q, (abs(Input),Input)) 
+    #튜플로 저장, 두개 값 한꺼번에 저장 가능 !
+    #튜플 + min heap으로 구성시에 절대값 힙 만드는것이 가능하다.
