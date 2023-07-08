@@ -1,0 +1,22 @@
+import sys
+
+input = sys.stdin.readline
+
+
+if __name__ == "__main__":
+  N = int(input())
+  Min = [0 for i in range(1000001)]
+  Min[1] = 0
+  Min[2] = 1
+  Min[3] = 1
+  for i in range(4,N+1):
+    if i%6 == 0:
+      Min[i] = min(Min[i//3],Min[i//2],Min[i-1])+1 # if i % 2 == 0 으로 넣음
+    elif i%3 == 0:
+      Min[i] = min(Min[i//3],Min[i-1])+1
+    elif i%2 == 0:
+      Min[i] = min(Min[i//2],Min[i-1])+1
+    else :
+      Min[i] = Min[i-1]+1
+    
+  print(Min[N])
