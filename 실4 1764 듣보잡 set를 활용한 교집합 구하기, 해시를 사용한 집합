@@ -1,0 +1,25 @@
+import sys
+
+input = sys.stdin.readline
+
+unreported = set()
+unheard = set()
+intersection = set() # intersection 저장할 set
+cnt = 0
+N,M = map(int,input().split())
+
+for i in range(N):
+  unreported_input = input().rstrip()
+  unreported.add(unreported_input)
+# set에 원소 추가시에는 add사용, 삭제는 remove
+for i in range(M):
+  unheard_input = input().rstrip() # 공백 삭제 method
+  unheard.add(unheard_input)
+
+intersection = sorted(unreported&unheard) # 사전순 정렬
+
+print(len(intersection),*intersection, sep='\n')
+
+
+  
+  
