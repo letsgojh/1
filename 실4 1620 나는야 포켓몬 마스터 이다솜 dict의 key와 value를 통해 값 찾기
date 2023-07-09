@@ -1,0 +1,24 @@
+import sys
+
+input = sys.stdin.readline
+N, find = map(int, input().split())
+pokemon_dict = {}
+reverse_pokemon_dict = {}
+
+for i in range(1,N+1):
+  Input = input().split()
+  pokemon_dict[i] = Input[0]
+reverse_pokemon_dict = dict(map(reversed,pokemon_dict.items())) # pokemon_dict reversed
+
+for i in range(find):
+  Find = input().split()
+  choose = ord(Find[0][0])
+  
+  if choose>=65 and choose<=90:
+    print(reverse_pokemon_dict[Find[0]])
+    
+  else:
+    num = int(Find[0])
+    print(pokemon_dict[num])
+  
+  
