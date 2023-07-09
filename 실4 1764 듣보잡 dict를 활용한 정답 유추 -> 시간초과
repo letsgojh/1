@@ -1,0 +1,30 @@
+import sys
+input = sys.stdin.readline
+
+unreported = {}
+unheard = {}
+intersection = {}
+cnt = 0
+N,M = map(int,input().split())
+
+for i in range(N):
+  unreported_input = input().split()
+  unreported[i] = unreported_input[0]
+  
+for i in range(M):
+  unheard_input = input().split()
+  unheard[i] = unheard_input[0]
+
+for i in range(len(unheard)):
+  if unheard[i] in unreported.values():
+    intersection[i] = unheard[i]
+    cnt += 1
+
+
+print(cnt, *intersection.values(), sep = '\n')
+
+  
+
+
+  
+  
