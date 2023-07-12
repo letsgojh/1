@@ -1,0 +1,24 @@
+import sys
+
+input = sys.stdin.readline
+
+
+if __name__ == "__main__":
+  N = int(input())
+
+  horizen = list(map(int,input().split()))
+  horizen_dict = {}
+  horizen_sort = sorted(list(set(horizen)))
+
+  for i in range(len(horizen_sort)):
+   horizen_dict[horizen_sort[i]] = i
+  
+  for i in range(N):
+    horizen[i] = horizen_dict[horizen[i]]
+  
+  print(*horizen)
+  
+
+      
+    
+  
