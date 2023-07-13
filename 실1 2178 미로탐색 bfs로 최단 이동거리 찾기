@@ -1,0 +1,39 @@
+from collections import deque
+import sys
+
+input = sys.stdin.readline
+
+
+def bfs(x, y):  # bfs로 최소 이동거리 구하기
+  queue = deque()
+  queue.append((x, y))
+
+  while queue: # 모든 경우의 수 다 찾기
+    x, y = queue.popleft()
+
+    for i in range(4): # 4방향 찾기
+      nx = x + dx[i]
+      ny = y + dy[i]
+
+      if nx <= -1 or nx >= N or ny <= -1 or ny >= M: # 범위를 넘어가면 for문으로 돌아감
+        continue
+
+      if maze[nx][ny] == 1: # 1이면
+        maze[nx][ny] = maze[x][y] + 1 # 상,하,좌,우 거리 탐색할때마다 거리 1씩 늘려서 측정하기 
+        queue.append((nx, ny)) 
+        # 의문 : 그러면 상,하,좌,우 검색할때 겹치는 부분이 많아서 1씩 계속 더해질텐데 상관없는지?
+
+if __name__ == '__main__':
+
+  N, M = map(int, input().split()) #가로, 세로 입력받기
+  maze = []  # 미로
+
+  for i in range(N):
+    maze.append(list(map(int, input().rstrip()))) # 미로 입력 받기
+
+  dx = [0, 0, 1, -1] # x축 이동 범위
+  dy = [-1, 1, 0, 0] # y축 이동 범위
+
+  bfs(0, 0) # 0, 0 부터 돌아가도록
+
+  print(maze[N - 1][M - 1]) # 끝지점의 거리 측정
