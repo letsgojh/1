@@ -1,0 +1,67 @@
+#7576
+from collections import deque
+import sys
+
+input = sys.stdin.readline
+
+
+def bfs(y, x, find_one):
+
+  global cnt
+
+  while find_one:
+    y, x = find_one.popleft()
+
+    if Map[y][x] == -1:
+      continue
+
+    for i in range(4):
+      nx = x + dx[i]
+      ny = y + dy[i]
+
+      if nx <= -1 or nx >= M or ny <= -1 or ny >= N:  # 범위 넘길경우
+        continue
+      if Map[ny][nx] == -1:  # 탐색 중 -1 일경우 패스
+        continue
+
+      if Map[ny][nx] == 0:
+        Map[ny][nx] = Map[y][x] + 1
+        find_one.append((ny, nx))
+
+
+if __name__ == '__main__':
+
+  global cnt
+  cnt = 0
+  M, N = map(int, input().split())
+  Map = []  # 박스
+  dx = [-1, 1, 0, 0]
+  dy = [0, 0, -1, 1]
+  find_one = deque()  # 1인 곳 모두 찾는 list
+  cmp = 0  # cmp-1 = 최소 날짜 (1은 처음부터 1더했으므로 1뺀다)
+  TF = 0  # 전체를 토마토로 다 채우지 못한 경우 TF = 1, 그렇지 않을 경우 TF = 0
+
+  for i in range(N):
+    Map.append(list(map(int, input().split())))
+  #print(*Map, sep='\n')
+
+  # 토마토 시작 갯수가 2개 이상인경우 어떻게 해야할까?
+  for i in range(N):  #1인경우를 다 찾아서 find_one에 넣고 BFS돌리기
+    for k in range(M):
+      if Map[i][k] == 1:
+        find_one.append((i, k))
+
+  bfs(i, k, find_one)
+
+  for i in range(N):
+    for k in range(M):
+      if cmp < Map[i][k]:
+        cmp = Map[i][k] - 1 # Map의 최댓값에서 -1 한 것이 최단 이동거리
+      if Map[i][k] == 0:
+        TF = 1
+
+  #print(*Map, sep='\n')
+  if TF == 1: # -1이 Map에 하나라도 존재하는 경우
+    print(-1)
+  else:
+    print(cmp)
