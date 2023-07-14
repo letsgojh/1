@@ -1,0 +1,45 @@
+import sys
+
+input = sys.stdin.readline
+
+
+def dfs(x, y):
+  global num
+  if x <= -1 or x >= N or y <= -1 or y >= N:
+    return 0
+
+  if maze[x][y] == 1:
+    num += 1
+    maze[x][y] = 0
+    dfs(x, y - 1)
+    dfs(x, y + 1)
+    dfs(x - 1, y)
+    dfs(x + 1, y)
+    return num
+
+  return 0
+
+
+if __name__ == '__main__':
+
+  N = int(input())
+  global num # dfs에서 쓸 거라서 전역변수 선언
+  maze = [] # 미로
+  cnt = 0 # dfs 돌린 횟수 담는변수
+  num = 0 # count에 넣을 재귀 돌린 횟수
+  count = [] # 재귀 돌린 횟수 담는 list
+
+  for i in range(N):
+    maze.append(list(map(int, input().rstrip())))
+  #print(*maze, sep = '\n')
+
+  for i in range(N):
+    for k in range(N):
+      if dfs(i, k) != 0:
+        cnt += 1
+        count.append(num) # dfs 재귀 돌린 횟수
+        num = 0 # 한번 dfs가 돌고나면 num을 초기화시켜 다시 dfs 재귀 돌린 횟수를 찾는다.
+
+  count = sorted(count) # 오름차순으로 출력하라고 했으니
+  print(cnt) # dfs몇번 돌렸는지
+  print(*count, sep='\n') #dfs 재귀 각각 몇번 돌렸는지
