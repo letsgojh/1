@@ -1,0 +1,26 @@
+#11659
+#답봐버림
+import sys
+
+input = sys.stdin.readline
+
+
+if __name__ == '__main__':
+  N, M = map(int,input().split())
+  add_list = []
+  add_order_list = [] # 누적합을 나타낸 list가 add_order_list
+  sum = 0
+  
+  add_list = list(map(int,input().split()))
+  add_order_list.append(0)
+  
+  for i in range(N):
+    sum += add_list[i]
+    add_order_list.append(sum) 
+  
+  for i in range(M):
+    start, end = map(int, input().split()) # 원래는 add_list[end] - add_list[start]를 해서 구해야 하지만 시간초과가 남
+    print(add_order_list[end] - add_order_list[start-1]) # add_order_list[end] - add_order_list[start-1] 할 시 누적 합이 구해짐
+      
+      
+    
