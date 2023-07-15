@@ -1,0 +1,56 @@
+# 14940
+from collections import deque
+import sys
+
+input = sys.stdin.readline
+
+def bfs(y, x, Map, graph):
+
+  queue = deque()
+  queue.append((y, x))
+
+  while queue:
+    y, x = queue.popleft()
+    
+    if graph[y][x] == 0:
+      continue
+
+    for i in range(4):
+      ny = y + dy[i]
+      nx = x + dx[i]
+
+      if nx <= -1 or nx >= m or ny <= -1 or ny >= n:
+        continue
+
+      if Map[ny][nx] == 0 and graph[ny][nx] != 0:
+        #if Map[ny][nx] == 0 and graph[ny][nx] != 0: # graph[ny][nx] == 1 이라고 해놓으니깐 while문 끝이안난다.
+        Map[ny][nx] = Map[y][x] + 1
+        queue.append((ny, nx))
+
+
+if __name__ == '__main__':
+
+  n, m = map(int, input().split())
+  graph = []
+  Map = [[0 for i in range(m)] for k in range(n)] # m과 n을 처음에 바꿔써서 indexerror났다. 예시에 m == n 한 것 밖에 없어서 잘못된줄도 몰랐었다.
+  dx = [0, 0, -1, 1]
+  dy = [1, -1, 0, 0]
+
+  for i in range(n):
+    graph.append(list(map(int, input().split())))
+
+  for i in range(n):
+    for k in range(m):
+      if graph[i][k] == 2:
+        bfs(i, k, Map, graph)
+        Map[i][k] = 0 # Map[i][k] = 2 이였으므로, 끝난 후 0 으로 바꿔준다. 
+  # graph[i][k] == 1 and Map[i][k] == 0인 부분은 -1처리 해주기
+
+  for i in range(n):
+    for k in range(m):
+      if graph[i][k] == 1 and Map[i][k] == 0:
+        Map[i][k] = -1
+
+  for i in range(n):
+    print(*Map[i])
+
