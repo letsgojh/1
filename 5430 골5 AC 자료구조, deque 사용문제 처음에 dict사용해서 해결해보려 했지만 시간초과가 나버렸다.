@@ -1,0 +1,59 @@
+from collections import deque
+import sys
+
+input = sys.stdin.readline
+
+if __name__ == '__main__':
+
+  T = int(input())
+
+  for i in range(T):
+
+    # 혹시 원소 갯수가 0개인데 R 명령어는 상관없나 ?
+    # -> 상관없다.
+
+    order = input().rstrip()
+    arry_cnt = int(input())
+    arry_True = deque(eval(input().rstrip()))
+    error = 0
+    Reverse = 1 # R이 몇번 나왔는지 세는 변수
+
+    for j in range(len(order)):
+
+      if order[j] == 'R':
+
+        #for z in range(len(arry_True) // 2):
+        #tmp = arry_True[z]
+        #arry_True[z] = arry_True[len(arry_True) - z - 1]
+        #arry_True[len(arry_True) - z - 1] = tmp
+        #arry_True = list(arry_True)
+        #arry_True = deque(reversed(arry_True)) # reverse는 시간복잡도 O(N), reversed는 O(1)
+        Reverse += 1 # R 나올때마다 +1
+
+      elif order[j] == 'D':  # del 사용해야한다, pop 사용하면 시간초과 날 듯
+
+        if len(arry_True) == 0:
+
+          error = 1
+          j = len(order) - 1
+
+        else:
+          if Reverse %2 != 0:
+            arry_True.popleft() # R이 2로 나눠지지 않으면 앞에서 빼고
+          else : 
+            arry_True.pop() # 2로 나누어지면 뒤에서 뺀다.
+
+    if error == 1:
+      print('error')
+
+    else:
+      if Reverse % 2 ==1:
+        arry_True = list(map(str, arry_True))
+        arry_True = ",".join(arry_True)
+        print('[', arry_True, ']', sep='')
+
+      else :
+        arry_True = reversed(arry_True) # 마지막으로 뒤집어주기만 하면 된다.
+        arry_True = list(map(str, arry_True))
+        arry_True = ",".join(arry_True)
+        print('[', arry_True, ']', sep='')
