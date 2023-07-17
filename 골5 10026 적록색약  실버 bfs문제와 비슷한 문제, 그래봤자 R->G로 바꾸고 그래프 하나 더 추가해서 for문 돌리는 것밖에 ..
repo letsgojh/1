@@ -1,0 +1,77 @@
+#10026
+from collections import deque
+import sys
+
+input = sys.stdin.readline
+
+
+def bfs(y, x, color, graph):
+
+  queue = deque()
+  queue.append((y, x))
+
+  while queue:
+
+    y, x = queue.popleft()
+
+    for i in range(4):
+      ny = y + dy[i]
+      nx = x + dx[i]
+
+      if ny <= -1 or nx <= -1 or nx >= N or ny >= N:
+        continue
+
+      if graph[ny][nx] == color and graph[ny][nx] != '0':
+
+        graph[ny][nx] = '0'
+        queue.append((ny, nx))
+
+
+if __name__ == '__main__':
+
+  N = int(input())
+  graph = []
+  graph_rg = [['' for k in range(N)] for i in range(N)]
+  dx = [0, 0, -1, 1]
+  dy = [-1, 1, 0, 0]
+  cnt_R = 0
+  cnt_G = 0
+  cnt_B = 0
+  cnt_rgR = 0
+  cnt_rgB = 0
+
+  for i in range(N):
+    graph.append(list(input().rstrip()))
+  #print(*graph, sep = '\n')
+  #graph_rg = graph[:] # 얇은 복사 시 복사하는 그래프 모양도 바뀐다. 얇은 복사 쓰지말자
+
+  for i in range(N): # 그래프 하나씩 옮기는 코드
+    for k in range(N):
+      if graph[i][k] == 'G':
+        graph_rg[i][k] = 'R'
+
+      else:
+        graph_rg[i][k] = graph[i][k]
+
+  for i in range(N):
+    for k in range(N):
+      if graph[i][k] == 'R': # 원래 여기에 bfs(i,k,'R',graph_rg) 도 넣었는데 그러면 graph_rg가 아니라 graph로 돌아가는 것 깨달음
+        bfs(i, k, 'R', graph)
+        cnt_R += 1
+
+      elif graph[i][k] == 'B':
+        bfs(i, k, 'B', graph)
+        cnt_B += 1
+
+      elif graph[i][k] == 'G':
+        bfs(i, k, 'G', graph)
+        cnt_G += 1
+
+      if graph_rg[i][k] == 'R':
+        bfs(i, k, 'R', graph_rg)
+        cnt_rgR += 1
+      elif graph_rg[i][k] == 'B':
+        bfs(i, k, 'B', graph_rg)
+        cnt_rgB += 1
+
+  print(cnt_R + cnt_B + cnt_G, cnt_rgR + cnt_rgB)
