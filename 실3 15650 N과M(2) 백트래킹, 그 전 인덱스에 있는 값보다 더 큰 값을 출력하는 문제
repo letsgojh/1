@@ -1,0 +1,30 @@
+import sys
+
+input = sys.stdin.readline
+
+
+def bt(depth, N, M):
+  if depth == M:
+    print(*ans)
+
+  else:
+    for i in range(1, N + 1):
+      if not visited[i]:
+        visited[i] = True
+        ans.append(i)
+        bt(depth + 1, N, M)
+        ans.pop()
+
+    if i == N: # N번까지 전부 돌았다면 ex) input : 4 2 , i == 4 , [1,4]
+      if len(ans) != 0 : # 이 조건을 넣지 않으니깐 out of index 에러가 난다.
+        for k in range(ans[depth-1]+1, N + 1): # ans[0] 제외한 후 N까지 나머지 인덱스 모두 False처리
+          visited[k] = False
+
+
+if __name__ == '__main__':
+
+  N, M = map(int, input().split())
+  ans = []
+  visited = [False] * (N + 1)
+
+  bt(0, N, M)
