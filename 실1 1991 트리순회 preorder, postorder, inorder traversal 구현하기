@@ -1,0 +1,59 @@
+#1991
+import sys
+
+input = sys.stdin.readline
+
+
+class Node: # 트리 구현은 클래스로 하면된다.(파이썬) 클래스는 쿠키 모양을 만드는 틀 같은 존재
+
+  def __init__(self, parent, left, right):
+    self.parent = parent
+    self.left = left
+    self.right = right
+
+
+def pre_order(start_Node): # 루트, 왼, 오
+  print(start_Node.parent, end='')
+
+  if start_Node.left != '.':
+    pre_order(tree[start_Node.left])
+  if start_Node.right != '.':
+    pre_order(tree[start_Node.right])
+
+
+def post_order(start_Node): # 왼, 오, 루트
+
+  if start_Node.left != '.':
+    post_order(tree[start_Node.left])
+
+  if start_Node.right != '.':
+    post_order(tree[start_Node.right])
+
+  print(start_Node.parent, end='')
+
+
+def inorder_traversal(start_Node): 왼,루트,오
+
+  if start_Node.left != '.':
+    inorder_traversal(tree[start_Node.left])
+
+  print(start_Node.parent, end='')
+
+  if start_Node.right != '.':
+    inorder_traversal(tree[start_Node.right])
+
+
+if __name__ == '__main__':
+
+  N = int(input())
+  tree = {}
+
+  for i in range(N):
+    parent, left, right = input().split()
+    tree[parent] = Node(parent, left, right)
+
+  pre_order(tree['A'])
+  print()
+  inorder_traversal(tree['A'])
+  print()
+  post_order(tree['A'])
