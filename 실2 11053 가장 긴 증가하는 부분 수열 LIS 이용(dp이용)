@@ -1,0 +1,23 @@
+#dp이용
+import sys
+
+input = sys.stdin.readline
+
+def LIS(arry):
+
+  for i in range(N): 
+    lis[i] = 1 # 모든 부분을 1로 채워넣고
+    for k in range(i): # 비교하는 인덱스 전까지 for문으로 돌아가게 한다.
+      if arry[k] < arry[i]: # 처음부터 비교하는 인덱스까지 비교하고 비교하는 인덱스가 제일 클경우 원래 본인 인덱스랑 더 작은 인덱스 값을 가진 
+것 중에서 max값을 대입한다.
+        lis[i] = max(lis[i],lis[k]+1) # lis[k] + 1 인 이유는 원래 lis에서 하나가 추가되었으니깐
+
+if __name__ =='__main__':
+
+  N = int(input())
+
+  arry = list(map(int,input().split()))
+  lis = [0 for i in range(N)]
+
+  LIS(arry)
+  print(max(lis))
