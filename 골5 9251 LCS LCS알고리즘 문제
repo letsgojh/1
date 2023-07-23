@@ -1,0 +1,22 @@
+#9251 LCS DP이용
+import sys
+
+input = sys.stdin.readline
+
+if __name__ == '__main__':
+
+  Str1 = input().rstrip() #rstrip해주지 않으면 \n도 들어가기때문에 Str1의 길이는 원래 길이 +1 이 된다.
+  Str2 = input().rstrip()
+
+  LCS = [[0 for i in range(len(Str1)+1)]for k in range(len(Str2)+1)]
+
+  for i in range(1,len(Str2)+1): # 편의상 첫행은 비우고 시작.
+    for k in range(1,len(Str1)+1): # 편의상 첫행은 비우고 시작
+
+      if Str1[k-1] == Str2[i-1]: # 같은 문자일경우 LCS의 왼쪽 대각선 값 +1, 여기서 Str1[i-1] == Str2[k-1] 이렇게 적어서 계속 오류났는데 몰라서 애꿏은것만 고치고 있었다.
+        LCS[i][k] = LCS[i-1][k-1]+1
+      
+      else:
+        LCS[i][k] = max(LCS[i-1][k], LCS[i][k-1]) # 다른 문자일경우 왼쪽이나 위쪽 값 중 더 큰 것 반환
+
+  print(LCS[len(Str2)][len(Str1)])
