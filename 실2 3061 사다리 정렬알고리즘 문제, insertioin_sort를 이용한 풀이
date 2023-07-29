@@ -1,0 +1,30 @@
+import sys
+
+input = sys.stdin.readline
+
+def insertion_sort(arry):
+
+  global cnt
+  tmp = 0
+  
+  for i in range(1,len(arry)):
+    for k in range(i):
+      if arry[i] < arry[k]:
+        tmp = arry[i]
+        arry[i] = arry[k]
+        arry[k] = tmp
+        cnt += 1
+
+def main():
+  global cnt
+  test_case = int(input())
+
+  for i in range(test_case):
+    cnt = 0
+    arry_length = int(input())
+    arry = list(map(int,input().split()))
+    insertion_sort(arry)
+    print(cnt)
+
+if __name__ == '__main__':
+  main()
