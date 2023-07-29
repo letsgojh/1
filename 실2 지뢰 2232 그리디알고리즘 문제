@@ -1,0 +1,78 @@
+#2232
+import sys
+
+input = sys.stdin.readline
+
+
+def main():
+
+  test_case = int(input())
+  bomb = [0 for i in range(test_case + 1)]
+  bomb_record = [0 for i in range(test_case + 1)]
+  visited = [False] * (test_case + 1)
+  visited[0] = True
+  ans_arry = []
+  ans = 0
+
+  for i in range(1, test_case + 1):
+    bomb[i] = int(input())
+
+  for i in range(1, test_case + 1):
+
+    cnt = 0
+
+    for k in range(i, 1, -1):
+      if bomb[k] > bomb[k - 1]:
+        cnt += 1
+      else:
+        break
+
+    for j in range(i, test_case):
+      if bomb[j] > bomb[j + 1]:
+        cnt += 1
+      else:
+        break
+
+    bomb_record[i] = cnt
+
+  while True:
+
+    M = bomb_record.index(max(bomb_record))
+
+    if M == 0:
+      break
+
+    if not visited[M]:
+      bomb_record[M] = 0
+
+      for k in range(M, 1, -1):
+        if bomb[k] > bomb[k - 1]:
+          visited[k - 1] = True
+          bomb_record[k - 1] = 0
+
+        else:
+          break
+
+      for j in range(M, test_case):
+        if bomb[j] > bomb[j + 1]:
+          visited[j + 1] = True
+          bomb_record[j + 1] = 0
+
+        else:
+          break
+
+    ans += 1
+    visited[M] = True
+    ans_arry.append(M)
+
+  ans_arry = sorted(ans_arry)
+
+  if ans == 0:
+    for i in range(1, len(bomb)):
+      print(i)  # while문을 한번도 안 돈경우, 모두다 똑같은 가중치를 가져서 처음부터 하나씩 터트리는 경우의 수밖에 없다.
+  else:
+    print(*ans_arry, sep='\n')
+
+
+if __name__ == '__main__':
+  main()
