@@ -1,0 +1,61 @@
+import sys
+
+input = sys.stdin.readline
+
+class Node:
+
+  def __init__(self,parent,child):
+    self.parent = parent
+    self.child = child
+
+
+def main():
+  N = int(input())
+  tree = {}
+  tree_second = {}
+  visited = [0 for i in range(N+1)]
+
+  for i in range(N-1):
+    node1,node2 = map(int, input().split())
+
+    if visited[node1] == 0 :
+      visited[node1] = i+1
+
+    if visited[node2] == 0:
+      visited[node2] = i+1
+
+    if node1 == 1: # 하나가 루트노드인 경우
+      tree[node2] = Node(node1, node2)
+
+    elif node2 == 1:
+      tree[node1] = Node(node2, node1)
+
+    else:
+      if node1 in tree.keys(): # 둘다 루트 노드가 아니고 루트노드에 인접한 서브 노드인 경우
+        tree[node2] = Node(node1, node2)
+       
+      elif node2 in tree.keys():
+        tree[node1] = Node(node2,node1)
+
+      elif node1 in tree.keys() and node2 in tree.keys(): # 둘다 루트노드에 인접한 서브 노드인 경우
+
+        if visited[node1] > visited[node2]:
+          tree[node1] = Node(node2,node1)
+
+        elif visited[node1] < visited[node2]:
+          tree[node2] = Node(node1,node2)          
+
+      else: # 둘다 루트노드에 인접한 서브 노드가 아닌 경우
+        tree[node2] = Node(node1,node2)
+        tree_second[node1] = Node(node2,node1) # 50번째 줄에서 만약 value 값이 존재하지 않을 경우 반대로 저장
+
+  
+  #print(*visited, sep = '\n')
+  for i in range(2,N+1):
+    if tree.get(i) == None:
+      print(tree_second[i].parent)
+    else:
+      print(tree[i].parent)
+      
+if __name__ == '__main__':
+  main()
