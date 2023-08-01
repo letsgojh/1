@@ -1,0 +1,67 @@
+#1599
+import sys
+
+input = sys.stdin.readline
+
+
+def main():
+
+  global k
+  test_case = int(input())
+  arry = []
+  alpabet = {} # 알파벳이 키고 숫자가 벨류
+  alpabet_reverse = {} # 숫자가 키고 알파벳이 벨류
+  score = [[] for k in range(test_case)]
+  q = [
+    '', 'a', 'b', 'k', 'd', 'e', 'g', 'h', 'i', 'l', 'm', 'n', 'ng', 'o', 'p',
+    'r', 's', 't', 'u', 'w', 'y'
+  ]
+
+  for i in range(len(q)):
+    alpabet[q[i]] = i 
+    alpabet_reverse[i] = q[i] # alpabet_reverse = dict(map(reversed, alpabet.items())) 보다 이렇게 하는게 훨씬 빠르다.
+
+  for i in range(test_case):
+    arry.append(list(map(str, input().rstrip()))) # \n제거
+    for k in range(len(arry[i])):
+      score[i].append(0) # 글자수 만큼만 append시킨다.
+  #print(score)
+  #print(arry)
+  for i in range(test_case):
+
+    for k in range(len(arry[i]) - 1, -1, -1): # 0에서 부터 시작할 시 index에러난다. 중간에 k값 수정이 안된다.
+      #print(score)
+      if k != 0 and arry[i][k] == 'g': # g만날경우 앞에가 n인지 확인
+
+        if arry[i][k - 1] == 'n':
+          score[i][k - 1] = alpabet['ng'] # n이면 앞에 값 바꾸기
+
+        else:
+          score[i][k] = alpabet[arry[i][k]] # n아니면 그냥 g값 대입
+
+      elif arry[i][k] == 'n': # n만날경우 뒤에가 g인지도 확인
+
+        if k + 1 != len(arry[i]) and arry[i][k+1] == 'g': # g인지 확인
+          continue
+
+        else:
+          score[i][k] = alpabet[arry[i][k]]
+
+      else:
+        score[i][k] = alpabet[arry[i][k]]
+
+  score = sorted(score)
+
+  for i in range(test_case):
+    for j in range(len(score[i])):
+
+      score[i][j] = alpabet_reverse[score[i][j]]
+
+      if score[i][j] == 0:
+        score[i].pop(j) # 이때 시간초과 날 줄 알았는데 안남
+
+  for i in range(test_case):
+    print(*score[i], sep='')
+
+if __name__ == '__main__':
+  main()
