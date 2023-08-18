@@ -1,0 +1,40 @@
+from itertools import combinations, permutations
+import sys
+
+input = sys.stdin.readline
+
+def main():
+    N = int(input())
+
+    for i in range(N):
+
+        n = int(input())
+        dict = {}
+
+        for k in range(n):
+            clothes = input().split()
+
+            if clothes[1] not in dict.keys():
+                dict[clothes[1]] = 1
+            else :
+                dict[clothes[1]] = dict[clothes[1]] + 1 
+
+        dict = list(dict.values())
+        sum = 0
+        for _ in range(1,len(dict)+1):
+            if _ == 1:
+                for j in dict:
+                    sum += j
+        
+            else:
+                C = list(combinations(dict,_))
+                for j in range(len(C)):
+                    mult = 1
+                    for z in C[j]:
+                        mult *= z
+                    sum += mult
+
+        print(sum)
+                
+if __name__ == '__main__':
+    main()
