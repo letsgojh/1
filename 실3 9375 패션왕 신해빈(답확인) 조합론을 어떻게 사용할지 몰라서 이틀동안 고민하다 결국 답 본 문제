@@ -1,0 +1,36 @@
+#9375
+import sys
+
+input = sys.stdin.readline
+
+
+def main():
+
+  N = int(input())
+
+  for i in range(N):
+
+    n = int(input())
+    dict = {}
+    sum = 1
+
+    for k in range(n):
+      clothes = input().split()
+
+      if clothes[1] not in dict.keys():
+        dict[clothes[1]] = 1
+      else:
+        dict[clothes[1]] = dict[clothes[1]] + 1
+
+    dict = list(dict.values())  # 옷 종류마다 개수들을 dict에 순서대로 저장
+
+    for j in range(len(dict)): # 각 항목들의 개수 + 1 -> 1을 더해주는 이유 = 해당 항목을 안 입는 경우를 더한다.
+      dict[j] += 1
+
+    for j in range(len(dict)): 
+      sum *= dict[j]
+
+    print(sum - 1) # -1 하는 이유 -> 알몸인 경우 제외
+
+if __name__ == '__main__':
+  main()
