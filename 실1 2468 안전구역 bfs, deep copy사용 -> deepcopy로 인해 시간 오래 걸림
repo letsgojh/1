@@ -1,0 +1,64 @@
+#2468
+from collections import deque
+import sys
+import copy
+
+input = sys.stdin.readline
+
+
+def bfs(y, x, height):
+
+  global cnt
+
+  queue = deque()
+  queue.append((y, x))
+
+  while queue:
+
+    y, x = queue.popleft()
+
+    for i in range(4):
+      ny = y + dy[i]
+      nx = x + dx[i]
+
+      if ny <= -1 or nx <= -1 or ny >= N or nx >= N:
+        continue
+
+      if replit_graph[ny][nx] > height:
+        replit_graph[ny][nx] = 0
+        queue.append((ny, nx))
+
+  cnt += 1
+
+
+if __name__ == '__main__':
+
+  global cnt
+  N = int(input())
+  graph = []
+  record = [] # 비의 양에 따라 가라앉지 않는 갯수 나타내는 arry
+  dx = [0, 0, -1, 1]
+  dy = [1, -1, 0, 0]
+  low = 100 # 최소높이 
+  high = 1 # 최고높이
+
+  for i in range(N):
+    graph.append(list(map(int, input().split())))
+
+    if low >= min(graph[i]):
+      low = min(graph[i])
+    if high <= max(graph[i]):
+      high = max(graph[i])
+
+  for _ in range(low - 1, high + 2):
+    cnt = 0
+    replit_graph = copy.deepcopy(graph) # replit_graph로 graph deepcopy해서 bfs 계속 돌리는 식으로 함. -> 더좋은 방법 있을 것 같은데..
+
+    for i in range(N):
+      for k in range(N):
+        if replit_graph[i][k] > _:
+          bfs(i, k, _)
+
+    record.append(cnt)
+
+  print(max(record))
