@@ -1,0 +1,43 @@
+#11404 
+#플로이드 워셜 알고리즘 (노드 개수 적을때만 사용), 노드, 간선 많을경우 다익스트라
+
+import sys
+
+input = sys.stdin.readline
+
+if __name__ == '__main__':
+
+  INF = int(1e9)
+  Node = int(input())
+  Edge = int(input())
+
+  graph = [[INF for i in range(Node+1)]for k in range(Node+1)]
+  
+  for i in range(Edge):
+    node1, node2, cost = map(int, input().split())
+
+    if graph[node1][node2] == INF:
+      graph[node1][node2] = cost
+      
+    else:
+      graph[node1][node2] = min(graph[node1][node2], cost)
+
+  #print(*graph, sep = '\n')
+
+  for i in range(1,Node+1): # 도착지 = 출발지 일경우 비용 = 0
+    graph[i][i] = 0
+
+  #플로이드 워셜
+  for i in range(1, Node+1):
+    for k in range(1, Node+1):
+      for j in range(1, Node+1):
+        graph[k][j] = min(graph[k][j], graph[k][i]+graph[i][j])
+
+  for i in range(1,Node+1):
+    for k in range(1, Node+1):
+      if graph[i][k] == INF:
+        print(0, end = ' ')
+
+      else:
+        print(graph[i][k], end = ' ')
+    print()
