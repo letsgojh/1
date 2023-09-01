@@ -1,0 +1,54 @@
+import sys
+
+sys.setrecursionlimit(10010)
+input = sys.stdin.readline
+
+
+class BST:
+
+  def __init__(self, value, left=None, right=None):
+    self.value = value
+    self.left = left
+    self.right = right
+
+  def insert(self, value):
+
+    if value < self.value:
+      if self.left == None:
+        self.left = BST(value)  # 새로운 노드 만들어서 저장한다.
+
+      else:
+        self.left.insert(value)
+
+    elif value > self.value:
+      if self.right == None:
+        self.right = BST(value)  # 새로운 노드 만들어서 저장한다.
+
+      else:
+        self.right.insert(value)
+
+  def post_order(self):
+
+    if self.left != None:
+      self.left.post_order()
+    if self.right != None:
+      self.right.post_order()
+    print(self.value)
+
+
+if __name__ == '__main__':
+
+  Tree = []
+
+  while True:
+    try:
+      Tree.append(int(input()))
+    except:
+      break
+
+  bst = BST(Tree[0])
+
+  for i in range(1, len(Tree)):
+    bst.insert(Tree[i])
+
+  bst.post_order()
