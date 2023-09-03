@@ -1,0 +1,88 @@
+from collections import deque
+import sys
+import copy
+
+input = sys.stdin.readline
+
+
+def bfs(y, x):
+
+  queue = deque()
+  queue.append((y, x))
+
+  while queue:
+
+    y, x = queue.popleft()
+
+    for i in range(4):
+      ny = y + dy[i]
+      nx = x + dx[i]
+
+      if ny <= -1 or nx <= -1 or ny >= graph_length or nx >= graph_length:
+        continue
+
+      if replit[ny][nx] == 0:
+        replit[ny][nx] += replit[y][x] + 1
+        queue.append((ny, nx))
+
+
+if __name__ == '__main__':
+
+  graph_length, remain = map(int, input().split())
+
+  graph = []
+  graph_homerecord = [[0 for i in range(graph_length)]
+                      for k in range(graph_length)]  # 기록용 graph 생성
+  record_1 = []
+  record_2 = []
+  dy = [0, -1, 1, 0]
+  dx = [1, 0, 0, -1]
+  ans = 0
+
+  for i in range(graph_length):
+    graph.append(list(map(int, input().split())))
+
+    for k in range(graph_length):
+
+      if graph[i][k] == 1:
+        record_1.append((i, k))
+
+      elif graph[i][k] == 2:
+        record_2.append((i, k))
+
+  score = [[0 for i in range(len(record_2))] for k in range(len(record_1))]
+  record_cnt = [0 for i in range(len(record_2))]
+  record_sum = [0 for i in range(len(record_2))]
+
+  for i in range(len(record_2)):
+
+    replit = copy.deepcopy(graph_homerecord)
+    bfs(record_2[i][0], record_2[i][1])
+
+    for k in range(len(record_1)):
+      score[k][i] = replit[record_1[k][0]][record_1[k][1]]
+
+      record_sum[i] += score[k][i]
+
+  print(*score, sep='\n')
+
+  for i in range(len(record_1)):
+    for k in range(len(record_2)):
+      if score[i][k] == min(score[i]):
+        record_cnt[k] += 1
+
+  print(record_sum)
+  print(record_cnt)
+
+  for i in range(len(record_2) - remain):
+    idx = record_cnt.index(min(record_cnt))
+
+    for k in range(len(record_1)):
+      score[k][idx] = 2500
+    record_cnt[idx] = 2500
+
+  #print(*score, sep='\n')
+  for i in range(len(record_1)):
+    ans += min(score[i])
+
+  print(ans)
