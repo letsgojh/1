@@ -1,0 +1,67 @@
+from itertools import combinations
+from collections import deque
+import copy
+import sys
+
+input = sys.stdin.readline
+
+def bfs(y,x):
+
+  global cnt
+  
+  queue = deque()
+  queue.append((y,x))
+
+  while queue:
+    y,x = queue.popleft()  
+
+    for i in range(4):
+      ny = y + dy[i]
+      nx = x + dx[i]
+
+      if nx <=-1 or ny <=-1 or nx >= M or ny >= N:
+        continue
+
+      if replit[ny][nx] == 0:
+        replit[ny][nx] = 2
+        queue.append((ny,nx))
+        cnt += 1
+
+if __name__ == '__main__':
+
+  global cnt
+  N,M = map(int, input().split())
+  graph = []
+  dy = [1,0,0,-1]
+  dx = [0,1,-1,0]
+  record_virus = [] # 값이 2이면 기록
+  record_blank = [] # 값이 0이면 기록
+  record_wall = [] # 값이 1이면 기록
+  maxvalue = 0
+
+  for i in range(N):
+    graph.append(list(map(int, input().split())))
+
+    for k in range(M):
+      if graph[i][k] == 2:
+        record_virus.append((i,k))
+
+      if graph[i][k] == 1:
+        record_wall.append((i,k))
+
+      if graph[i][k] == 0:
+        record_blank.append((i,k))
+
+  score = N*M - len(record_virus)-len(record_wall)-3 # 안전구역  = 전체 개수 - 초기 바이러스 개수 - 초기 벽 개수 - 놓을 벽 개수 (3) - 퍼진 바이러스 개수
+  for i in combinations(record_blank,3):
+    replit = copy.deepcopy(graph)
+    cnt = 0 # 퍼진 바이러스 개수
+    
+    for k in range(3):
+      replit[i[k][0]][i[k][1]] = 1
+
+    for k in range(len(record_virus)):
+      bfs(record_virus[k][0], record_virus[k][1])
+
+    maxvalue = max(score-cnt,maxvalue)
+  print(maxvalue)
