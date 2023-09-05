@@ -1,0 +1,35 @@
+import sys
+
+input = sys.stdin.readline
+
+
+def bt(depth, N, M):
+
+  global cnt
+  
+  if depth == M:
+    print(*ans)
+    return
+
+  else:
+    remember = 0 # 전 값 기억해 주는 변수
+    for i in range(N):
+      if not visited[i] and remember != arry[i]:
+        visited[i] = True
+        ans.append(arry[i])
+        remember = arry[i]
+        bt(depth + 1, N, M)
+        ans.pop()
+        visited[i] = False
+
+
+if __name__ == '__main__':
+
+  global cnt
+  cnt = 0
+  N, M = map(int, input().split())
+  arry = list(map(int, input().split()))
+  arry = sorted(arry)
+  ans = []
+  visited = [False] * N
+  bt(0, N, M)
