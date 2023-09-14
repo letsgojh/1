@@ -1,0 +1,66 @@
+#우선순위 queue를 사용한 다익스트라는 코드 길이도 줄이고 시간복잡도도 낮춘다.
+
+import sys
+
+input = sys.stdin.readline
+
+INF = sys.maxsize
+
+def get_smallest_node():
+    minValue = INF
+    index = 0
+
+    for i in range(1,comNum+1):
+        if distance[i] < minValue and not visited[i]:
+            minValue = distance[i]
+            index = i
+
+    return index
+
+
+def dijkstra(start):
+    visited[start] = True
+    distance[start] = 0
+
+    for i in graph[start]:
+        distance[i[0]] = i[1]
+
+    for i in range(comNum-1):
+        now = get_smallest_node()
+        visited[now] = True
+
+        for k in graph[now]:
+            if k[1] != INF:
+                cost = distance[now] + k[1]
+
+                if distance[k[0]] > cost:
+                    distance[k[0]] = cost
+
+
+if __name__ == '__main__':
+
+    testCase = int(input())
+
+    for _ in range(testCase):
+        comNum , dependency, hackedcom = map(int, input().split())
+
+        graph = [[] for k in range(comNum+1)]
+        visited = [False] * (comNum+1)
+        distance = [INF] * (comNum+1)
+        
+        for __ in range(dependency):
+            hacked, hacking, secondCost = map(int, input().split())
+            graph[hacking].append((hacked,secondCost))
+
+        dijkstra(hackedcom)
+
+        ans1 = 0
+        ans2 = 0
+
+        for i in range(comNum+1):
+            if distance[i] != INF:
+                ans1 += 1
+                if distance[i] >= ans2:
+                    ans2 = distance[i]
+
+        print(ans1, ans2)
