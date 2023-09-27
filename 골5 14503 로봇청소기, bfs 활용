@@ -1,0 +1,88 @@
+import sys
+
+input = sys.stdin.readline
+
+
+def dfs(y, x, dir):
+    global cnt
+    corr = 0
+
+    if x <= -1 or y <= -1 or y >= N or x >= M:
+        return
+
+
+    if graph[y][x] == 0:
+        graph[y][x] = 2 # 1은 벽이고, 0 은 청소 안된부분, 2는 청소 된 부분이다. 1은 갈 수 없지만, 2는 갈 수 있다.
+        cnt += 1
+
+    #print(*graph, sep = '\n')
+    #print(f'y = {y}, x = {x}, dir = {dir}')
+    
+    for i in range(4):
+        ny = y + dy[i]
+        nx = x + dx[i]
+
+        if nx <= -1 or ny <= -1 or ny >= N or nx >= M:
+            continue # 처음에 이부분에 break인가? return 넣어서 계속 원하던 값이 안나왔었다.
+
+        if graph[ny][nx] == 0:  # 청소 안된 부분 O
+            corr += 1
+
+    if corr == 0:  # 청소 안된 부분 없을 경우
+        if dir == 0:
+            if graph[y+dy[2]][x+dx[2]] != 1:
+                dfs(y + dy[2], x + dx[2], dir)
+
+            else:
+                return
+        elif dir == 1:
+            if graph[y+dy[3]][x+dx[3]] != 1:
+                dfs(y + dy[3], x + dx[3], dir)
+
+            else:
+                return
+            
+        elif dir == 2:
+            if graph[y+dy[0]][x+dx[0]] != 1:
+                dfs(y + dy[0], x + dx[0], dir)
+
+            else:
+                return
+        elif dir == 3:
+            if graph[y+dy[1]][x+dx[1]] != 1:
+                dfs(y + dy[1], x + dx[1], dir)
+
+            else:
+                return
+
+    else:  # 청소 안된 부분 있을경우
+        while True:
+            dir = dir - 1
+
+            if dir == -1:
+                dir = 3
+
+            if y+dy[dir] <=-1 or y+dy[dir] >= N or x+dx[dir] <=-1 or x+dx[dir] >= M:
+                continue
+            
+            if graph[y + dy[dir]][x + dx[dir]] == 0:
+                dfs(y + dy[dir], x + dx[dir], dir)
+                break
+
+
+if __name__ == '__main__':
+
+    global cnt
+    cnt = 0
+    N, M = map(int, input().split())
+    graph = []
+    robotCdn_y, robotCdn_x, direction = map(int, input().split())
+    dy = [-1, 0, 1, 0]
+    dx = [0, 1, 0, -1]
+
+    for _ in range(N):
+        graph.append(list(map(int, input().split())))
+
+    dfs(robotCdn_y, robotCdn_x, direction)
+
+    print(cnt)
